@@ -1,0 +1,15 @@
+10020,1339329281,Caregiver_3,Resident_6,Medication,CILOSTAZOL:100
+1169,1343539783,Caregiver_10,Resident_8,Hygiene,Evac:yes Mict:yes
+1961,1326132379,Caregiver_8,Resident_2,Hygiene,Evac:yes appearance:type_5 color:brown Mict:yes color:pale_yellow
+10021,1339329303,Caregiver_3,Resident_6,Medication,Cilastazol(générique):20 
+649,1342967177,Caregiver_2,Resident_8,Feeding,Lunch:NA
+532,1342820230,Caregiver_1,Resident_1,Hygiene,Toilet
+533,1342823515,Caregiver_1,Resident_2,Vitals,Temperature:36 HighBP:115 LowBP:85 Pulse:82 Breath:22 Glucose:NA Weight:NA
+538,1342824095,Caregiver_1,Resident_4,Hygiene,Toilet
+539,1342824119,Caregiver_1,Resident_4,Check_Over,Lay_down
+540,1342824131,Caregiver_1,Resident_4,Check_Over,Lay_down
+541,1342824141,Caregiver_1,Resident_5,Hygiene,Toilet
+9920,1336688670,Caregiver_6,Resident_4,Hygiene,Teeth Clothes
+9921,1336688896,Caregiver_6,Resident_4,Hygiene,Mict:yes appearance:normal
+9922,1336688961,Caregiver_6,Resident_5,Hygiene,Teeth Clothes
+9923,1336689021,Caregiver_6,Resident_5,Hygiene,Mict:yes

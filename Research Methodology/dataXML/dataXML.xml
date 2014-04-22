@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Element>
+  <data id="10020">
+    <timestamp>1339329281</timestamp>
+    <caregiver>Caregiver_3</caregiver>
+    <resident>Resident_6</resident>
+    <activity activity="Medication">
+      <Medication01 id="CILOSTAZOL">100</Medication01>
+    </activity>
+  </data>
+  <data id="1169">
+    <timestamp>1343539783</timestamp>
+    <caregiver>Caregiver_10</caregiver>
+    <resident>Resident_8</resident>
+    <activity activity="Hygiene">
+      <Evac status="yes" />
+      <Mict status="yes" />
+    </activity>
+  </data>
+  <data id="1961">
+    <timestamp>1326132379</timestamp>
+    <caregiver>Caregiver_8</caregiver>
+    <resident>Resident_2</resident>
+    <activity activity="Hygiene">
+      <Evac status="yes" />
+      <Mict status="yes" />
+    </activity>
+  </data>
+  <data id="10021">
+    <timestamp>1339329303</timestamp>
+    <caregiver>Caregiver_3</caregiver>
+    <resident>Resident_6</resident>
+    <activity activity="Medication">
+      <Medication01 id="Cilastazol(générique)">20</Medication01>
+    </activity>
+  </data>
+  <data id="649">
+    <timestamp>1342967177</timestamp>
+    <caregiver>Caregiver_2</caregiver>
+    <resident>Resident_8</resident>
+    <activity activity="Feeding">
+      <Lunch>NA</Lunch>
+    </activity>
+  </data>
+  <data id="532">
+    <timestamp>1342820230</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_1</resident>
+    <activity activity="Hygiene">
+      <hygiene0>Toilet</hygiene0>
+    </activity>
+  </data>
+  <data id="533">
+    <timestamp>1342823515</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_2</resident>
+    <activity activity="Vitals">
+      <Temperature>36</Temperature>
+      <HighBP>115</HighBP>
+      <LowBP>85</LowBP>
+      <Pulse>82</Pulse>
+      <Breath>22</Breath>
+      <Glucose>NA</Glucose>
+      <Weight>NA</Weight>
+    </activity>
+  </data>
+  <data id="538">
+    <timestamp>1342824095</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_4</resident>
+    <activity activity="Hygiene">
+      <hygiene0>Toilet</hygiene0>
+    </activity>
+  </data>
+  <data id="539">
+    <timestamp>1342824119</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_4</resident>
+    <activity>Check_Over</activity>
+    <description>Lay_down</description>
+  </data>
+  <data id="540">
+    <timestamp>1342824131</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_4</resident>
+    <activity>Check_Over</activity>
+    <description>Lay_down</description>
+  </data>
+  <data id="541">
+    <timestamp>1342824141</timestamp>
+    <caregiver>Caregiver_1</caregiver>
+    <resident>Resident_5</resident>
+    <activity activity="Hygiene">
+      <hygiene0>Toilet</hygiene0>
+    </activity>
+  </data>
+  <data id="9920">
+    <timestamp>1336688670</timestamp>
+    <caregiver>Caregiver_6</caregiver>
+    <resident>Resident_4</resident>
+    <activity activity="Hygiene">
+      <hygiene0>Teeth</hygiene0>
+      <hygiene1>Clothes</hygiene1>
+    </activity>
+  </data>
+  <data id="9921">
+    <timestamp>1336688896</timestamp>
+    <caregiver>Caregiver_6</caregiver>
+    <resident>Resident_4</resident>
+    <activity activity="Hygiene">
+      <Mict status="yes" />
+    </activity>
+  </data>
+  <data id="9922">
+    <timestamp>1336688961</timestamp>
+    <caregiver>Caregiver_6</caregiver>
+    <resident>Resident_5</resident>
+    <activity activity="Hygiene">
+      <hygiene0>Teeth</hygiene0>
+      <hygiene1>Clothes</hygiene1>
+    </activity>
+  </data>
+  <data id="9923">
+    <timestamp>1336689021</timestamp>
+    <caregiver>Caregiver_6</caregiver>
+    <resident>Resident_5</resident>
+    <activity activity="Hygiene">
+      <Mict status="yes" />
+    </activity>
+  </data>
+</Element>

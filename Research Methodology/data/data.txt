@@ -1608,7 +1608,7 @@
 2179,1328815358,Caregiver_11,Resident_8,Toilet,NA
 2180,1328815470,Caregiver_11,Resident_8,Hygiene,Mict:yes urine:400 appearance:concentrated odor:fetid
 2181,1328815564,Caregiver_11,Resident_8,Hygiene,Hands Clothes
-2182,1328815828,Caregiver_6,Resident_5,Hygiene,Mict:yes urine:muy_poco 200
+2182,1328815828,Caregiver_6,Resident_5,Hygiene,Mict:yes urine:muy_poco200
 2183,1328816372,Caregiver_4,Resident_8,Hygiene,Teeth
 2184,1328816372,Caregiver_4,Resident_8,Hygiene,Teeth
 2185,1328816392,Caregiver_4,Resident_8,Medication,AmantadineCapsulas:100
@@ -8445,7 +8445,7 @@
 9031,1346536012,Caregiver_3,Resident_14,Toilet,NA
 9032,1346532601,Caregiver_3,Resident_2,Mood,NA
 9033,1346536145,Caregiver_3,Resident_2,Check_Over,Lay_down
-9034,1346540771,Caregiver_3,Resident_3,Hygiene,Mict:yes appearance:normal; se realiza limpieza en area del coxis y se aplica crema
+9034,1346540771,Caregiver_3,Resident_3,Hygiene,Mict:yes appearance:normal;se_realiza_limpieza_en_area_del_coxis_y_se_aplica_crema
 9035,1326163358,Caregiver_3,Resident_1,Hygiene,Mict:yes urine:300
 9036,1326163374,Caregiver_3,Resident_14,Medication,Bromuro_de_ipratropio_:05 SalbutamolNebulizacion:25
 9037,1326163497,Caregiver_3,Resident_14,Hygiene,Mict:yes urine:200
@@ -17924,7 +17924,7 @@
 18522,1385999003,Caregiver_3,Resident_5,Medication,DonepezilTabletas:10
 18523,1385999165,Caregiver_3,Resident_5,Medication,EscitalopramTabletas:10
 18524,1385999191,Caregiver_3,Resident_5,Hygiene,Clothes Shower Appearance
-18525,1385999233,Caregiver_3,Resident_5,Hygiene,Mict:yes appearance:normal en panal
+18525,1385999233,Caregiver_3,Resident_5,Hygiene,Mict:yes appearance:normal_en_panal
 18526,1385999243,Caregiver_3,Resident_5,Feeding,Breakfast:NA
 18527,1385999253,Caregiver_3,Resident_5,Feeding,Lunch:NA
 18528,1385999263,Caregiver_3,Resident_5,Mood,Quiet

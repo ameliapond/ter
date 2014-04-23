@@ -1,3 +1,6 @@
+9921,1336688896,Caregiver_6,Resident_4,Hygiene,Mict:yes appearance:normal
+1895,1326106256,Caregiver_8,Resident_12,Hygiene,Evac:yes appearance:type_5 color:brown
+1169,1343539783,Caregiver_10,Resident_8,Hygiene,Evac:yes Mict:yes
 2212,1328822996,Caregiver_2,Resident_14,Medication,NA
 1035,1343419746,Caregiver_1,Resident_4,Medication,Complejo_B_Tabletas_Tiamina:100 Piridoxina:5 Cianocobalamina:50
 10020,1339329281,Caregiver_3,Resident_6,Medication,CILOSTAZOL:100

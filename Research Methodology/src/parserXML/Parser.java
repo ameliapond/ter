@@ -109,42 +109,31 @@ public class Parser {
 							break;
 						case "Hygiene":
 							descripOn = false;
-							Attribute activity2 = new Attribute("activity",
-									"Hygiene");
+							String mictEvac = null;
+							Attribute activity2 = new Attribute("activity","Hygiene");
 							// Set the attribute inside the markups
 							element.setAttribute(activity2);
 							String[] descriptionField2 = tokenEntry[i + 1]
 									.split(thirdDelimiter);
-							for (int j = 0; j < descriptionField2.length; j++)
+							System.out.println(sCurrentLine);
+							if (descriptionField2[0].contains(":"))
 							{
-								if (descriptionField2[j].contains(":"))
+								for (int j = 0; j < descriptionField2.length; j++)
 								{
-									Element node = new Element("Temp");
 									String[] descEntry = descriptionField2[j]
 											.split(secondDelimiter);
-									if (descEntry[0].equals("Mict")
-											|| descEntry[0].equals("Evac"))
-									{
-										node = new Element(descEntry[0]);
-										element.addContent(node);
-										Attribute nodeStatus = new Attribute(
-												"status", descEntry[1]);
-										// Set the attribute inside the markups
-										node.setAttribute(nodeStatus);
-									} 
-									else
-									{
-										Element subElem = new Element(descEntry[0]);
-										node.addContent(subElem);
-										subElem.setText(descEntry[1]);
-									}
-								} 
-								else
-								{
-									Element subElem = new Element("hygiene" + j);
+									Element subElem = new Element(descEntry[0]);
+									// Add a new node element to the current node.
 									element.addContent(subElem);
-									subElem.setText(descriptionField2[j]);
+									// Set the text between the markups.
+									subElem.setText(descEntry[1]);			
 								}
+							}
+							else
+							{
+								Element subElem = new Element("description");
+								element.addContent(subElem);
+								subElem.setText(descriptionField2[0]);
 							}
 							break;
 						case "Medication":
@@ -156,13 +145,9 @@ public class Parser {
 									.split(thirdDelimiter);
 							for (int j = 0; j < descriptionField3.length; j++)
 							{
-									System.out.println("descriptionField3.length: "+descriptionField3.length+"\n");
-									System.out.println("descriptionField3.length: "+descriptionField3[0]+"\n");
 									int numeroMedication = j+1;
 									String[] descEntry = descriptionField3[j]
 										.split(secondDelimiter);
-									System.out.println(sCurrentLine);
-
 									if (!descriptionField3[0].equals("NA"))
 									{
 										Attribute medic = new Attribute("id", descEntry[0]);
@@ -201,8 +186,7 @@ public class Parser {
 									Element subElem = new Element(descEntry[0]);
 									element.addContent(subElem);
 									subElem.setText(descEntry[1]);
-								}
-								
+								}	
 							}
 							break;
 						default:

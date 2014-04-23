@@ -173,8 +173,10 @@ public class Parser {
 									}
 									else
 									{
+										//Attribute medic = new Attribute("id", "unknown");
 										Element subElem = new Element("Medication");
 										element.addContent(subElem);
+										//subElem.setAttribute(medic);
 										subElem.setText("NA");
 									}
 							}

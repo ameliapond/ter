@@ -90,39 +90,6 @@ public class Parser {
 					data.addContent(element);
 					switch (tokenEntry[i])
 					{
-						case "Toilet":
-							descripOn = false;
-							Attribute activity2 = new Attribute("activity","Toilet");
-							// Set the attribute inside the markups
-							element.setAttribute(activity2);
-							String[] descriptionField2 = tokenEntry[i + 1]
-									.split(thirdDelimiter);
-							
-							if (descriptionField2[0].contains(":"))
-							{
-								for (int j = 0; j < descriptionField2.length; j++)
-								{
-									String[] descEntry = descriptionField2[j]
-											.split(secondDelimiter);
-									Element subElem = new Element(descEntry[0]);
-									// Add a new node element to the current node.
-									element.addContent(subElem);
-									// Set the text between the markups.
-									subElem.setText(descEntry[1]);			
-								}
-							}
-							else
-							{
-								int numeroHygiene = 1;
-								for (String tokenFromDescriptionField2: descriptionField2)
-								{
-									Element subElem = new Element("Hygiene"+numeroHygiene);
-									element.addContent(subElem);
-									subElem.setText(tokenFromDescriptionField2);
-									numeroHygiene++;
-								}
-							}
-							break;
 						case "Vitals":
 							descripOn = false;
 							Attribute activity = new Attribute("activity", "Vitals");
@@ -142,34 +109,41 @@ public class Parser {
 							break;
 						case "Hygiene":
 							descripOn = false;
-							Attribute activity5 = new Attribute("activity","Hygiene");
+							Attribute activity2 = new Attribute("activity",
+									"Hygiene");
 							// Set the attribute inside the markups
-							element.setAttribute(activity5);
-							String[] descriptionField5 = tokenEntry[i + 1]
+							element.setAttribute(activity2);
+							String[] descriptionField2 = tokenEntry[i + 1]
 									.split(thirdDelimiter);
-							
-							if (descriptionField5[0].contains(":"))
+							for (int j = 0; j < descriptionField2.length; j++)
 							{
-								for (int j = 0; j < descriptionField5.length; j++)
+								if (descriptionField2[j].contains(":"))
 								{
-									String[] descEntry = descriptionField5[j]
+									Element node = new Element("Temp");
+									String[] descEntry = descriptionField2[j]
 											.split(secondDelimiter);
-									Element subElem = new Element(descEntry[0]);
-									// Add a new node element to the current node.
-									element.addContent(subElem);
-									// Set the text between the markups.
-									subElem.setText(descEntry[1]);			
-								}
-							}
-							else
-							{
-								int numeroHygiene = 1;
-								for (String tokenFromDescriptionField5: descriptionField5)
+									if (descEntry[0].equals("Mict")
+											|| descEntry[0].equals("Evac"))
+									{
+										node = new Element(descEntry[0]);
+										element.addContent(node);
+										Attribute nodeStatus = new Attribute(
+												"status", descEntry[1]);
+										// Set the attribute inside the markups
+										node.setAttribute(nodeStatus);
+									} 
+									else
+									{
+										Element subElem = new Element(descEntry[0]);
+										node.addContent(subElem);
+										subElem.setText(descEntry[1]);
+									}
+								} 
+								else
 								{
-									Element subElem = new Element("Hygiene"+numeroHygiene);
+									Element subElem = new Element("hygiene" + j);
 									element.addContent(subElem);
-									subElem.setText(tokenFromDescriptionField5);
-									numeroHygiene++;
+									subElem.setText(descriptionField2[j]);
 								}
 							}
 							break;
@@ -182,9 +156,13 @@ public class Parser {
 									.split(thirdDelimiter);
 							for (int j = 0; j < descriptionField3.length; j++)
 							{
+									System.out.println("descriptionField3.length: "+descriptionField3.length+"\n");
+									System.out.println("descriptionField3.length: "+descriptionField3[0]+"\n");
 									int numeroMedication = j+1;
 									String[] descEntry = descriptionField3[j]
 										.split(secondDelimiter);
+									System.out.println(sCurrentLine);
+
 									if (!descriptionField3[0].equals("NA"))
 									{
 										Attribute medic = new Attribute("id", descEntry[0]);
@@ -195,8 +173,10 @@ public class Parser {
 									}
 									else
 									{
+										//Attribute medic = new Attribute("id", "unknown");
 										Element subElem = new Element("Medication");
 										element.addContent(subElem);
+										//subElem.setAttribute(medic);
 										subElem.setText("NA");
 									}
 							}
@@ -223,7 +203,8 @@ public class Parser {
 									Element subElem = new Element(descEntry[0]);
 									element.addContent(subElem);
 									subElem.setText(descEntry[1]);
-								}	
+								}
+								
 							}
 							break;
 						default:
@@ -232,15 +213,12 @@ public class Parser {
 					i++;
 				}
 			}
-			
-			System.out.println("dataXML.xml has been generated.");
-			
 		} catch (java.io.FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
 		//affiche();
 		enregistre("dataXML/dataXML.xml");
-		
+		System.out.println("dataXML.xml has been generated.");
 	}
 }

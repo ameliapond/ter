@@ -1,4 +1,5 @@
 /** TODO
+ * supprimer les NA de caregiver, mood, feeding
  */
 package parserXML;
 
@@ -76,6 +77,7 @@ public class Parser {
 		
 		tokenFields = fields.split(delimiter);
 		
+		System.out.println("XML file is generating...");
 		try
 		{
 			br = new BufferedReader(new FileReader("data/data.txt"));
@@ -95,6 +97,19 @@ public class Parser {
 					data.addContent(element);
 					switch (tokenEntry[i])
 					{
+						case "Outside":
+							descripOn = false;
+							Attribute activityOutside = new Attribute("name", "Outside");
+							element.setAttribute(activityOutside);		
+							Element subElemOutside = new Element("description");
+							// Add a new node element to the current node.
+							element.addContent(subElemOutside);
+							// Set the text between the markups.
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemOutside.setText(tokenEntry[i+1]);
+							}
+							break;
 						case "Anomaly":
 							descripOn = false;
 							Attribute activityAnomaly = new Attribute("name","Anomaly");
@@ -125,7 +140,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemMedicalAtention);
 							// Set the text between the markups.
-							subElemMedicalAtention.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemMedicalAtention.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Social_Interactions":
 							descripOn = false;
@@ -145,7 +163,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemVisits);
 							// Set the text between the markups.
-							subElemVisits.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemVisits.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Other":
 							descripOn = false;
@@ -155,7 +176,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemOther);
 							// Set the text between the markups.
-							subElemOther.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemOther.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Inside":
 							descripOn = false;
@@ -165,7 +189,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemInside);
 							// Set the text between the markups.
-							subElemInside.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{	
+								subElemInside.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Check_Over":
 							descripOn = false;
@@ -175,7 +202,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemCheckOver);
 							// Set the text between the markups.
-							subElemCheckOver.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemCheckOver.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Recreation":
 							descripOn = false;
@@ -185,7 +215,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElemRecreation);
 							// Set the text between the markups.
-							subElemRecreation.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElemRecreation.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Mood":
 							descripOn = false;
@@ -245,8 +278,11 @@ public class Parser {
 								Element subElem = new Element(descEntry[0]);
 								// Add a new node element to the current node.
 								element.addContent(subElem);
-								// Set the text between the markups.
-								subElem.setText(descEntry[1]);
+								if (!descEntry[1].equals("NA"))
+								{
+									// Set the text between the markups.
+									subElem.setText(descEntry[1]);
+								}
 							}
 							break;
 						case "Hygiene":
@@ -270,7 +306,7 @@ public class Parser {
 									subElem.setText(descEntry[1]);			
 								}
 							}
-							else
+							else if (!tokenEntry[i + 1].equals("NA"))
 							{
 								for (String tokenFromDescriptionField5: descriptionField5)
 								{
@@ -278,6 +314,11 @@ public class Parser {
 									element.addContent(subElem);
 									subElem.setText(tokenFromDescriptionField5);
 								}
+							}
+							else
+							{
+								Element subElem = new Element("hygiene");
+								element.addContent(subElem);
 							}
 							break;
 						case "Medication":
@@ -287,23 +328,27 @@ public class Parser {
 
 							String[] descriptionField3 = tokenEntry[i + 1]
 									.split(thirdDelimiter);
-							for (int j = 0; j < descriptionField3.length; j++)
+							if (descriptionField3[0].equals("NA"))
 							{
-									String[] descEntry = descriptionField3[j]
-										.split(secondDelimiter);
-									if (!descriptionField3[0].equals("NA"))
-									{
+								Element subElem = new Element("medication");
+								element.addContent(subElem);
+							}
+							else
+							{
+								for (int j = 0; j < descriptionField3.length; j++)
+								{
+										String[] descEntry = descriptionField3[j]
+											.split(secondDelimiter);
 										Attribute medic = new Attribute("name", descEntry[0]);
 										Element subElem = new Element("medication");
 										element.addContent(subElem);
 										subElem.setAttribute(medic);
-										subElem.setText(descEntry[1]);
-									}
-									else
-									{
-										Element subElem = new Element("medication");
-										element.addContent(subElem);
-									}
+										
+										if (!descEntry[1].equals("NA"))
+										{
+											subElem.setText(descEntry[1]);
+										}
+								}
 							}
 							break;
 						case "Feeding":

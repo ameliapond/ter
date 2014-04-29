@@ -228,7 +228,10 @@ public class Parser {
 							// Add a new node element to the current node.
 							element.addContent(subElem1);
 							// Set the text between the markups.
-							subElem1.setText(tokenEntry[i+1]);
+							if(!tokenEntry[i+1].equals("NA"))
+							{
+								subElem1.setText(tokenEntry[i+1]);
+							}
 							break;
 						case "Toilet":
 							descripOn = false;
@@ -362,30 +365,43 @@ public class Parser {
 							{
 								String[] descEntry = descriptionField4[j]
 										.split(secondDelimiter);
-								if (descEntry[0].equals("?"))
+								System.out.println(sCurrentLine);
+								if (!descEntry[1].equals("NA"))
+								{
+									Element subElem = new Element(descEntry[0]);
+									element.addContent(subElem);
+									subElem.setText(descEntry[1]);
+								}
+								else if(descEntry[0].equals("?"))
 								{
 									Element subElem = new Element("feeding");
 									element.addContent(subElem);
-									subElem.setText(descEntry[1]);
+									subElem.setText(null);
 								}
 								else
 								{
 									Element subElem = new Element(descEntry[0]);
 									element.addContent(subElem);
-									if (!descEntry[1].equals("NA"))
-									{
-										subElem.setText(descEntry[1]);
-									}
-									else
-									{
-										subElem.setText(null);
-									}
+									subElem.setText(null);
 								}	
 							}
 							break;
 						default:
+						// if the current field is "caregiver" and equals to "NA"
+						if (tokenFields[i].equals("caregiver"))
+						{
+							//System.out.println("caregiver: "+tokenEntry[i]);
+							if (tokenEntry[i].equals("NA"))
+							{
+								element.setText(null);	
+							}
+							else
+							{
+								element.setText(tokenEntry[i]);
+							}
+						}
 						// if the field which is reading is timestamp -> conversion to readable date,
-						if (tokenFields[i].equals("timestamp"))
+						else if (tokenFields[i].equals("timestamp"))
 						{
 							unixSeconds = Long.parseLong(tokenEntry[i]);
 							Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds

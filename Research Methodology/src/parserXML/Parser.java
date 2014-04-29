@@ -1,6 +1,26 @@
-/** TODO
- * supprimer les NA de caregiver, mood, feeding
+/** 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    This class is used in the context of Ambiant Assisted Living.
+
+    The document name data.txt located in the folder data is parsed and an output
+    file named dataXML.xml is produced.
+    In the following source code every activity is considered as an entry.
+    Every line in the input file is considered as an activity.
+    
  */
+
 package parserXML;
 
 import java.io.BufferedReader;
@@ -20,6 +40,9 @@ public class Parser {
 
 	static Element racine = new Element("Element");
 	static org.jdom2.Document document = new Document(racine);
+	/**
+	 * @Brief	Displays the result of the parsing 
+	 */
 	static void affiche()
 	{
 		try
@@ -32,6 +55,10 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * @Brief			Save the xml in the file give as parameter.
+	 * @Param 	fichier	Name of the output file.	
+	*/
 	static void enregistre(String fichier)
 	{
 		try
@@ -48,16 +75,20 @@ public class Parser {
 		String fields = null;
 		String delimiter = "[,]";
 		String secondDelimiter = "[:]";
-		String thirdDelimiter = "\\s+";
-		String[] tokenFields;
-		String[] tokenEntry;
+		String thirdDelimiter = "\\s+";	// delimiter to parse the line currently read.
+		String[] tokenFields;			// contains the fields read from the field.txt file.
+		String[] tokenEntry;			// contains the value aaociated with the current field.
 		BufferedReader br = null;
-		String sCurrentLine;
-		long unixSeconds;
+		String sCurrentLine;			// contains the line currently read from the input file.
+		long unixSeconds;				// the second for the timestamp conversion.
+		long inputReadLine = 0; 		// contains the number of read lines.
+		long outputWroteChildren = 0; 	// contains the number of children wrote.
+		long unknowActivityNumber = 0; 	// contains the number of unknow activities.
 
-		// Get the fields's name in the file given as parameter.
+		
 		try
 		{
+			// Get the fields's name in the file given as parameter.
 			br = new BufferedReader(new FileReader("data/fields.txt"));
 			fields = br.readLine();
 		} catch (IOException e)
@@ -75,30 +106,43 @@ public class Parser {
 			}
 		}
 		
+		// Split the line read and convert it in a String table containing the fields in
+		// every cell.
 		tokenFields = fields.split(delimiter);
 		
 		System.out.println("XML file is generating...");
+
 		try
 		{
 			br = new BufferedReader(new FileReader("data/data.txt"));
 			while ((sCurrentLine = br.readLine()) != null)
 			{
+				inputReadLine++;
+				// first slitting with the commas.
 				tokenEntry = sCurrentLine.split(delimiter);
+				
 				Element data = new Element("entry");
 				racine.addContent(data);
+
 				Attribute ligne = new Attribute(tokenFields[0], "e"+tokenEntry[0]);
 				data.setAttribute(ligne);
-				int i = 1;
-				// Variable to detect if we reached the last field.
-				boolean descripOn = true;
-				while (i < tokenFields.length && descripOn)
+				
+				int i = 1;					// The field's number (ex: id is the first field, 
+											// timestamp is the second field, etc).
+				boolean isNotDescription = true;	// Equals true if the field which is reading is not the fifth.			
+				
+				// while the fifth field (i.e. activity) is not reached.
+				while (i < tokenFields.length && isNotDescription)
 				{
 					Element element = new Element(tokenFields[i]);
 					data.addContent(element);
+
+					// The following cases handle the whole value that can be taken by "activity".
+					// The default case handle the unrecognized value of activity.
 					switch (tokenEntry[i])
 					{
 						case "Outside":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityOutside = new Attribute("name", "Outside");
 							element.setAttribute(activityOutside);		
 							Element subElemOutside = new Element("description");
@@ -109,12 +153,14 @@ public class Parser {
 							{
 								subElemOutside.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Anomaly":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityAnomaly = new Attribute("name","Anomaly");
 							// Set the attribute inside the markups
 							element.setAttribute(activityAnomaly);
+							// Second splitting with the white spaces
 							String[] descriptionFieldAnomaly = tokenEntry[i + 1]
 									.split(thirdDelimiter);
 							if (descriptionFieldAnomaly[0].equals("NA"))
@@ -131,9 +177,10 @@ public class Parser {
 									subElem.setText(tokenFromDescriptionFieldAnomaly);
 								}
 							}
+							outputWroteChildren++;
 							break;
 						case "Medical_atention":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityMedicalAtention = new Attribute("name", "Medical_atention");
 							element.setAttribute(activityMedicalAtention);		
 							Element subElemMedicalAtention = new Element("description");
@@ -144,9 +191,10 @@ public class Parser {
 							{
 								subElemMedicalAtention.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Social_Interactions":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activitySocialInteractions = new Attribute("name", "Social_Interactions");
 							element.setAttribute(activitySocialInteractions);		
 							Element subElemSocialInteractions = new Element("description");
@@ -154,9 +202,10 @@ public class Parser {
 							element.addContent(subElemSocialInteractions);
 							// Set the text between the markups.
 							subElemSocialInteractions.setText(tokenEntry[i+1]);
+							outputWroteChildren++;
 							break;
 						case "Visits":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityVisits = new Attribute("name", "Visits");
 							element.setAttribute(activityVisits);		
 							Element subElemVisits = new Element("description");
@@ -167,9 +216,10 @@ public class Parser {
 							{
 								subElemVisits.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Other":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityOther = new Attribute("name", "Other");
 							element.setAttribute(activityOther);		
 							Element subElemOther = new Element("description");
@@ -180,9 +230,10 @@ public class Parser {
 							{
 								subElemOther.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Inside":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityInside = new Attribute("name", "Inside");
 							element.setAttribute(activityInside);		
 							Element subElemInside = new Element("description");
@@ -193,9 +244,10 @@ public class Parser {
 							{	
 								subElemInside.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Check_Over":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityCheckOver = new Attribute("name", "Check_Over");
 							element.setAttribute(activityCheckOver);		
 							Element subElemCheckOver = new Element("description");
@@ -206,9 +258,10 @@ public class Parser {
 							{
 								subElemCheckOver.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Recreation":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityRecreation = new Attribute("name", "Recreation");
 							element.setAttribute(activityRecreation);		
 							Element subElemRecreation = new Element("description");
@@ -219,9 +272,10 @@ public class Parser {
 							{
 								subElemRecreation.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Mood":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activityMood = new Attribute("name", "Mood");
 							element.setAttribute(activityMood);		
 							Element subElem1 = new Element("description");
@@ -232,9 +286,10 @@ public class Parser {
 							{
 								subElem1.setText(tokenEntry[i+1]);
 							}
+							outputWroteChildren++;
 							break;
 						case "Toilet":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activity2 = new Attribute("name","Toilet");
 							// Set the attribute inside the markups
 							element.setAttribute(activity2);
@@ -267,13 +322,15 @@ public class Parser {
 									subElem.setText(tokenFromDescriptionField2);
 								}
 							}
+							outputWroteChildren++;
 							break;
 						case "Vitals":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activity = new Attribute("activity", "Vitals");
 							element.setAttribute(activity);
 							String[] descriptionField = tokenEntry[i + 1]
 									.split(thirdDelimiter);
+
 							for (int j = 0; j < descriptionField.length; j++)
 							{
 								String[] descEntry = descriptionField[j]
@@ -287,9 +344,10 @@ public class Parser {
 									subElem.setText(descEntry[1]);
 								}
 							}
+							outputWroteChildren++;
 							break;
 						case "Hygiene":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activity5 = new Attribute("name","Hygiene");
 							// Set the attribute inside the markups
 							element.setAttribute(activity5);
@@ -302,6 +360,7 @@ public class Parser {
 								{
 									String[] descEntry = descriptionField5[j]
 											.split(secondDelimiter);
+
 									Element subElem = new Element(descEntry[0]);
 									// Add a new node element to the current node.
 									element.addContent(subElem);
@@ -323,14 +382,16 @@ public class Parser {
 								Element subElem = new Element("hygiene");
 								element.addContent(subElem);
 							}
+							outputWroteChildren++;
 							break;
 						case "Medication":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activity3 = new Attribute("name","Medication");
 							element.setAttribute(activity3);
 
 							String[] descriptionField3 = tokenEntry[i + 1]
 									.split(thirdDelimiter);
+
 							if (descriptionField3[0].equals("NA"))
 							{
 								Element subElem = new Element("medication");
@@ -353,9 +414,10 @@ public class Parser {
 										}
 								}
 							}
+							outputWroteChildren++;
 							break;
 						case "Feeding":
-							descripOn = false;
+							isNotDescription = false;
 							Attribute activity4 = new Attribute("name",
 									"Feeding");
 							element.setAttribute(activity4);
@@ -365,13 +427,14 @@ public class Parser {
 							{
 								String[] descEntry = descriptionField4[j]
 										.split(secondDelimiter);
-								System.out.println(sCurrentLine);
+		
 								if (!descEntry[1].equals("NA"))
 								{
 									Element subElem = new Element(descEntry[0]);
 									element.addContent(subElem);
 									subElem.setText(descEntry[1]);
 								}
+								// if the name of the meal is unknow
 								else if(descEntry[0].equals("?"))
 								{
 									Element subElem = new Element("feeding");
@@ -385,9 +448,10 @@ public class Parser {
 									subElem.setText(null);
 								}	
 							}
+							outputWroteChildren++;
 							break;
 						default:
-						// if the current field is "caregiver" and equals to "NA"
+						// if the current field is "caregiver" it is and equals to "NA"
 						if (tokenFields[i].equals("caregiver"))
 						{
 							//System.out.println("caregiver: "+tokenEntry[i]);
@@ -400,8 +464,8 @@ public class Parser {
 								element.setText(tokenEntry[i]);
 							}
 						}
-						// if the field which is reading is timestamp -> conversion to readable date,
-						else if (tokenFields[i].equals("timestamp"))
+						// if the field which is reading is timestamp -> conversion to readable date.
+						else if (tokenFields[i].equals("timestamp") )
 						{
 							unixSeconds = Long.parseLong(tokenEntry[i]);
 							Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds
@@ -409,18 +473,28 @@ public class Parser {
 							String formatedDate = sdf.format(date);
 							element.setText(formatedDate);
 						}
+						// If neither category has been recognized.
+						// Field number % contains the activity.
+						else if (i == 5)
+						{
+							System.out.println("Error, unknow activity: "+sCurrentLine);
+						}
 						// otherwise the value of the field is added.
 						else
 						{
 							element.setText(tokenEntry[i]);
 						}
-					}
+						break;
+					} // enf of switch
 					i++;
 				}
 			}
 			
-			System.out.println("dataXML.xml has been generated.");
-			
+			System.out.println(inputReadLine+" lines read.");
+			System.out.println(outputWroteChildren+" children wrote.");
+			System.out.println(unknowActivityNumber+" unknow ativity(ies).");
+			System.out.println("dataXML.xml has been generated. \n");
+
 		} catch (java.io.FileNotFoundException e)
 		{
 			e.printStackTrace();
